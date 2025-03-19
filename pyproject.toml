@@ -5,8 +5,13 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
+    "fastapi[standard]>=0.115.11",
+    "ipykernel>=6.29.5",
+    "matplotlib>=3.10.1",
+    "requests>=2.32.3",
     "torch>=2.6.0",
     "torchvision>=0.21.0",
+    "ultralytics>=8.3.92",
 ]
 
 [[tool.uv.index]]

@@ -1,29 +1,32 @@
 # uv
 
-- Install pipx through pip
-`pip install pipx`
-- Install uv through pipx
-`pipx install uv`
+```shell
+# Install pipx through pip
+pip install pipx
+
+# Install uv through pipx
+pipx install uv
+```
 
 # start project (first time only)
-`uv init PROJECT_NAME -p 3.10`
+```shell
+uv init PROJECT_NAME -p 3.10
+uv venv
 ``
 
 # add dependencies
 
-- PyTorch
-Add below block to `pyproject.toml`
-```yaml
-[[tool.uv.index]]
-name = "pytorch-cu126"
-url = "https://download.pytorch.org/whl/cu126"
-explicit = true
+```shell
+# PyTorch
+uv pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu126
 
-[tool.uv.sources]
-torch = [
-  { index = "pytorch-cu126", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
-]
-torchvision = [
-  { index = "pytorch-cu126", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
-]
+# HuggingFace
+uv pip install transformers
+
+# fastapi
+uv add fastapi[standard]
+
+# YOLOv10
+uv add ultralytics
+uv pip install git+https://github.com/THU-MIG/yolov10.git
 ```
