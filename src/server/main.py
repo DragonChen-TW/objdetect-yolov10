@@ -1,19 +1,18 @@
 from io import BytesIO
+import json
+import re
 
 from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import Response
 
-import numpy as np
 import torch
 from PIL import Image
 from ultralytics import YOLO
-import simplejpeg as sjpg
 
 app = FastAPI()
 
-device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
-
 # Load the pre-trained object detection model
+device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 model = YOLO('yolov10n')
 model.to(device)
 
@@ -28,19 +27,20 @@ async def predict(file: UploadFile = File(...)):
         image,
         device=device,
         verbose=False,
+        conf=0.35,
 
         stream=True,
         # half=True,
     )
 
-    # detected_image = predictions[0].plot()
-    detected_image = next(predictions).plot()
-    detected_image = np.ascontiguousarray(detected_image[..., ::-1]) # convert to RGB
+    # prepare data to response
+    pred = next(predictions).cpu()
+    boxes_data = pred.boxes.data
+    content = json.dumps({
+        'boxes': boxes_data.tolist(),
+    }, indent=None)
 
-    # by Pillow
-    frame = Image.fromarray(detected_image)
-    detected_image = BytesIO()
-    frame.save(detected_image, format='JPEG')
-    detected_image_buffer = detected_image.getvalue()
-
-    return Response(content=detected_image_buffer, media_type='image/jpg')
+    # lower decimal precision to reduce the length of message
+    content = re.sub(r"(\.[0-9]{3})[0-9]*", r"\1", content)
+    
+    return Response(content=content, media_type='application/json')
