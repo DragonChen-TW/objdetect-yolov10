@@ -18,3 +18,15 @@ curl -X 'POST' \
 ```shell
 make client
 ```
+
+## Try to speedup
+
+Start from FPS around 18.
+
+Some optimizations:
+- disable default verbose in server
+- add stream=True in server
+- add `torch.comple`
+Did not applied because my GPU of development environment is too old.  
+`RuntimeError: Found NVIDIA GeForce GTX 1060 6GB which is too old to be supported by the triton GPU compiler, which is used as the backend. Triton only supports devices of CUDA Capability >= 7.0, but your device is of CUDA capability 6.1`
+Could try another GPU card, colab or Cloud platform.
