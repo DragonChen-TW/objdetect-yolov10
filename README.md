@@ -1,5 +1,24 @@
 # Object Detection - yolov10
 
+## installation
+
+This project use `uv` to manage Python version, pakcage dependencies and virtual environment.  
+Yes, `uv` is the replacement of `pyenv`, `pip` and `venv`.
+
+### install uv
+
+```shell
+# Install pipx through pip
+pip install pipx
+
+# Install uv through pipx
+pipx install uv
+```
+
+So, what is the next? No, you are ready to run server/client.
+
+`uv` will automatically create `venv`, donwload packages when you run `uv run SCRIPT.py`. And, that is blazing fast.
+
 ## run server
 
 ```shell
@@ -22,7 +41,7 @@ curl -X 'POST' \
 
 ## test by client.py
 
-It will get all the frames in given video file (`data/Parkour...mp4 there), and send them to server to do inference one by one.
+It will get all the frames in given video file (`data/Parkour...mp4 there), and send them to server to do inference one by one. Then, it will open cv2 to stream these frames were detection by YOLOv10.
 
 I only cut ~13 seconds out from the original video. About 400 frames under 30 FPS.
 
