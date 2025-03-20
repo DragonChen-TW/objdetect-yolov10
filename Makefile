@@ -12,4 +12,4 @@ uv:
 	# "==========uv locking......=========="
 	uv lock
 	# "==========making requirements.txt......=========="
-	uv pip freeze > requirements.txt
+	uv export --no-emit-project --locked --no-hashes -o requirements.txt -q
